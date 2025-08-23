@@ -229,24 +229,6 @@ class GoogleDocProcessor {
         return $data;
     }
 
-    /**
-     * Remove class and id attributes from node and its children
-     */
-    private function removeClassesAndIds(DOMNode $node) {
-        if ($node->hasAttributes()) {
-            if ($node->attributes->getNamedItem('class')) {
-                $node->removeAttribute('class');
-            }
-            if ($node->attributes->getNamedItem('id')) {
-                $node->removeAttribute('id');
-            }
-        }
-
-        foreach ($node->childNodes as $child) {
-            $this->removeClassesAndIds($child);
-        }
-    }
-
     private function fetchHtml($url) {
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
