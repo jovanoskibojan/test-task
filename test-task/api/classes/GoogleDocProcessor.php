@@ -159,6 +159,7 @@ class GoogleDocProcessor {
     private function replaceImagesWithAlt(DOMDocument $dom) {
         $xpath = new DOMXPath($dom);
         $links = $xpath->query('//a');
+        $data = [];
 
         foreach ($links as $link) {
             $text = trim($link->textContent);
@@ -217,12 +218,12 @@ class GoogleDocProcessor {
                             }
                         }
                     }
+                    $data['total'] = $stats['total'];
+                    $data['private'] = $stats['total'] - $stats['public'];
+                    $data['not_drive'] = $stats['total'] - $stats['drive'];
                 }
             }
         }
-        $data['total'] = $stats['total'];
-        $data['private'] = $stats['total'] - $stats['public'];
-        $data['not_drive'] = $stats['total'] - $stats['drive'];
 
         return $data;
     }
