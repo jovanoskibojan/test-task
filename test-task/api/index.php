@@ -11,15 +11,17 @@ $url = $data['url'] ?? '';
 $processor = new GoogleDocProcessor();
 $result = $processor->process($url);
 
-$airtable = new AirtableClient('pat39CZ9t4QsYflc6.eedfdee891cdbef39cf959ad0585dc977b409e583aaab8d4ab1940f13c9d42f8', 'app5UWHpvXzSYsaId', 'Projects');
-$airtableResult = $airtable->createRecord([
-    'Title' => $result['data']['title'],
-    'Description' => $result['data']['description'],
-    'Links' => $result['data']['links'],
-    'Total images' => $result['data']['imageStats']['total'],
-    'Images not in Drive' => $result['data']['imageStats']['not_drive'],
-    'Private Drive images' => $result['data']['imageStats']['private'],
-    'HTML Content' => $result['data']['html']
-]);
+if($result["status"] == 'success') {
+    $airtable = new AirtableClient('pat39CZ9t4QsYflc6.eedfdee891cdbef39cf959ad0585dc977b409e583aaab8d4ab1940f13c9d42f8', 'app5UWHpvXzSYsaId', 'Projects');
+    $airtableResult = $airtable->createRecord([
+        'Title' => $result['data']['title'],
+        'Description' => $result['data']['description'],
+        'Links' => $result['data']['links'],
+        'Total images' => $result['data']['imageStats']['total'],
+        'Images not in Drive' => $result['data']['imageStats']['not_drive'],
+        'Private Drive images' => $result['data']['imageStats']['private'],
+        'HTML Content' => $result['data']['html']
+    ]);
+}
 header('Content-Type: application/json');
-echo json_encode([$result, $airtableResult], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+echo json_encode($result, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);

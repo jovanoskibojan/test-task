@@ -4,15 +4,19 @@ import './App.css';
 function App() {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
-    const [htmlContent, setHtmlContent] = useState('');
     const [loading, setLoading] = useState(false);
 
     const inputRef = useRef(null); // reference to input
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (loading) return;
         const inputValue = inputRef.current.value.trim();
         if (!inputValue) return;
+
+        // Hide previous messages
+        setError('');
+        setSuccess('');
 
         setLoading(true); // disable button and show waiting text
 
@@ -25,17 +29,12 @@ function App() {
             .then(data => {
                 if (data.status === 'error') {
                     setError(data.message);
-                    setSuccess('');
-                    setHtmlContent('');
                 } else {
                     setSuccess('Form submitted successfully!');
-                    setError('');
-                    setHtmlContent(data.html);
                 }
             })
             .catch(() => {
                 setError('Server error');
-                setSuccess('');
             })
             .finally(() => {
                 setLoading(false);           // re-enable button
@@ -54,12 +53,7 @@ function App() {
 
             {/* Show messages conditionally */}
             {error && <div className="message error">{error}</div>}
-            {success &&
-                <div className="message success">
-                    {success}
-                    <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
-                </div>
-            }
+            {success && <div className="message success">{success}</div>}
         </div>
     );
 }

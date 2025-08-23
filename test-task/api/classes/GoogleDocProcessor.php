@@ -159,7 +159,9 @@ class GoogleDocProcessor {
     private function replaceImagesWithAlt(DOMDocument $dom) {
         $xpath = new DOMXPath($dom);
         $links = $xpath->query('//a');
-        $data = [];
+        $data['total'] = 0;
+        $data['private'] = 0;
+        $data['not_drive'] = 0;
 
         foreach ($links as $link) {
             $text = trim($link->textContent);
