@@ -20,7 +20,7 @@ function App() {
 
         setLoading(true); // disable button and show waiting text
 
-        fetch('http://test.rs/index.php', {
+        fetch('https://test.jovanoskibojan.com/api/index.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ url: inputValue })

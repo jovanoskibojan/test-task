@@ -175,7 +175,7 @@ class GoogleDocProcessor {
                     $fileId = $matches[2];
 
                     // Proper Google Drive image URL for <img>
-                    $imgSrc = "https://drive.google.com/uc?export=view&id=$fileId";
+                    $imgSrc = "https://drive.google.com/thumbnail?id=$fileId";
 
                     $altText = '';
                     $p = $link->parentNode->parentNode; // <p> node
