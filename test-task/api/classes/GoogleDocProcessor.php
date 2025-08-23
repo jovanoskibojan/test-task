@@ -128,14 +128,14 @@ class GoogleDocProcessor {
             }
         }
 
+        $imageStats = $this->replaceImagesWithAlt($dom);
+
         // Count all links in the body
         $linkCount = 0;
         if ($body) {
             $links = $body->getElementsByTagName('a');
             $linkCount = $links->length;
         }
-
-        $imageStats = $this->replaceImagesWithAlt($dom);
 
         // --- Combine styles + body content ---
         $cleanHtml = $styles;
@@ -209,19 +209,18 @@ class GoogleDocProcessor {
                         $src = $img->getAttribute('src');
 
                         // Check if it is a Google Drive link
-                        if (preg_match('/drive\.google\.com\/uc\?export=view&id=([a-zA-Z0-9_-]+)/', $src, $matches)) {
+                        if (preg_match('/drive\.google\.com\/.*id=([a-zA-Z0-9_-]+)/', $src, $matches)) {
                             $stats['drive']++;
                             $fileId = $matches[1];
 
                             // Check if the file is public
                             $headers = @get_headers("https://drive.google.com/uc?export=view&id=$fileId");
-                            if ($headers && strpos($headers[0], '200') === false) {
-                                $stats['public']++;
+                            if ($headers && strpos($headers[0], '200') !== false) {
+                                $data['private']++;
                             }
                         }
                     }
                     $data['total'] = $stats['total'];
-                    $data['private'] = $stats['total'] - $stats['public'];
                     $data['not_drive'] = $stats['total'] - $stats['drive'];
                 }
             }
