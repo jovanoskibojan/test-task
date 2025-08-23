@@ -38,6 +38,12 @@
   background-color: #0056b3;
 }
 
+.wrapper button:disabled {
+  background-color: #ccc;   /* greyed out */
+  cursor: not-allowed;      /* show not-allowed cursor */
+  opacity: 0.7;             /* slightly transparent */
+}
+
 /* Message sections */
 .message {
   padding: 10px;
