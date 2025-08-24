@@ -159,6 +159,7 @@ class GoogleDocProcessor {
     private function replaceImagesWithAlt(DOMDocument $dom) {
         $xpath = new DOMXPath($dom);
         $links = $xpath->query('//a');
+        $data['links'] = [];
         $data['total'] = 0;
         $data['private'] = 0;
         $data['not_drive'] = 0;
@@ -176,6 +177,7 @@ class GoogleDocProcessor {
 
                     // Proper Google Drive image URL for <img>
                     $imgSrc = "https://drive.google.com/thumbnail?id=$fileId";
+                    $data['links'][] = $imgSrc;
 
                     $altText = '';
                     $p = $link->parentNode->parentNode; // <p> node
@@ -225,7 +227,6 @@ class GoogleDocProcessor {
                 }
             }
         }
-
         return $data;
     }
 

@@ -10,8 +10,15 @@ class AirtableClient {
         $this->tableName = $tableName;
     }
 
-    public function createRecord(array $fields): array {
+    public function createRecord(array $fields, array $images = []): array {
         $url = "https://api.airtable.com/v0/{$this->baseId}/{$this->tableName}";
+
+        if (!empty($images)) {
+            // Assume your Attachment field is called 'Images' in Airtable
+            $fields['Images'] = array_map(function($imgUrl) {
+                return ['url' => $imgUrl];
+            }, $images);
+        }
 
         $postData = ['fields' => $fields];
 

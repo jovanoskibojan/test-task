@@ -20,8 +20,8 @@ if($result["status"] == 'success') {
         'Total images' => $result['data']['imageStats']['total'],
         'Images not in Drive' => $result['data']['imageStats']['not_drive'],
         'Private Drive images' => $result['data']['imageStats']['private'],
-        'HTML Content' => $result['data']['html']
-    ]);
+        'HTML Content' => $result['data']['html'],
+    ], $result['data']['imageStats']['links']);
 }
 header('Content-Type: application/json');
 echo json_encode($result, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
